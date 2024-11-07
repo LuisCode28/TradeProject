@@ -45,16 +45,19 @@ export const signUp = async (userData: SignUpParams) => {
 }
 
 export async function getLoggedInUser() {
-    try {
-      const { account } = await createSessionClient();
+  try {
+    const { account } = await createSessionClient();
+    const result = await account.get();
 
-      const user = await account.get();
+    const user = await getUserInfo({ userId: result.$id})
 
-      return parseStringify(user);
-    } catch (error) {
-      return null;
-    }
+    return parseStringify(user);
+  } catch (error) {
+    console.log(error)
+    return null;
   }
+}
+
 
 
   export const logoutAccount = async() => {
